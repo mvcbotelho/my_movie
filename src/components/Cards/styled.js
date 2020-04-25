@@ -27,6 +27,7 @@ margin-top: 4px;
 export const Title = styled.p`
 font-size: 1.2em;
 font-weight: bold;
+color: #000;
 `
 export const InfoMovie = styled.p`
 font-size: 0.9em;

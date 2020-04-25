@@ -2,35 +2,42 @@ import React, { useState } from 'react';
 import * as S from './styled'
 import axios from 'axios'
 
-import { Link } from "react-router-dom";
+//import { Link } from "react-router-dom";
 
 import Cards from '../../components/Cards'
 
 function Home() {
   const [movieName, setMovieName] = useState('')
   const [movies, setMovies] = useState('')
+  const [loading, setLoading] = useState(true)
 
-  function hanldeSubmit(movieTitle) {
-
-    const titleFormated = movieTitle.split(' ').join('+')
-    axios
-      .get(`http://www.omdbapi.com/?s=${titleFormated}&apikey=8568b783&type=movie`)
-      .then(res => setMovies(res.data.Search))
-
+  function handleKeyUp(e) {
+    const titleFormated = movieName.split(' ').join('+')
+    const keyCode = e.which || e.keyCode;
+    if (keyCode === 13) {
+      axios
+        .get(`http://www.omdbapi.com/?s=${titleFormated}&apikey=8568b783&type=movie`)
+        .then(res => setMovies(res.data.Search))
+        .catch(error => console.log(error))
+        .finally(() => setLoading(false));
+    }
   }
+
+
   return (
     <>
       <S.Container>
         <S.SearchWrapper>
           <h1>Encontre seu filme favorito</h1>
-          <S.Form>
+          <S.InputWrapper>
             <S.Input
               placeholder="Seu filme favorito"
               onChange={e => setMovieName(e.target.value)}
+              onKeyUp={handleKeyUp}
             />
 
-            <S.ButtonSearch type='button' onClick={() => hanldeSubmit(movieName)}>Buscar</S.ButtonSearch>
-          </S.Form>
+
+          </S.InputWrapper>
         </S.SearchWrapper>
       </S.Container>
 
@@ -39,9 +46,9 @@ function Home() {
           <>
             {console.log(movies)}
             {movies.map(movie => (
-              <Link to={`/detalhes/${movie.imdbID}`}>
-                <Cards key={movie.imdbID} title={movie.Title} year={movie.Year} poster={movie.Poster} />
-              </Link>
+              <S.Links key={movie.imdbID} to={`/detalhes/${movie.imdbID}`}>
+                <Cards title={movie.Title} year={movie.Year} poster={movie.Poster} />
+              </S.Links>
             ))}
           </>
         ) : null}
