@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import * as S from './styled'
 import axios from 'axios'
 
+import { Link } from "react-router-dom";
+
 import Cards from '../../components/Cards'
 
 function Home() {
@@ -35,9 +37,11 @@ function Home() {
       <S.CardContainer>
         {movies ? (
           <>
-          {console.log(movies)}
+            {console.log(movies)}
             {movies.map(movie => (
-              <Cards key={movie.imdbID} title={movie.Title} year={movie.Year} poster={movie.Poster} />
+              <Link to={`/detalhes/${movie.imdbID}`}>
+                <Cards key={movie.imdbID} title={movie.Title} year={movie.Year} poster={movie.Poster} />
+              </Link>
             ))}
           </>
         ) : null}
