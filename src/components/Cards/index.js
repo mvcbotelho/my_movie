@@ -1,8 +1,12 @@
-import React from 'react'
+import React, { useState } from 'react'
 import * as S from './styled'
 
-function Cards({ title, year, poster }) {
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faHeart as regularHeart } from '@fortawesome/free-regular-svg-icons'
+import { faHeart as solidHeart } from '@fortawesome/free-solid-svg-icons'
 
+function Cards({ title, year, poster, imdbID }) {
+  const [liked, setLiked] = useState(false)
   return (
     <S.Card>
       <S.CardHeader>
@@ -15,6 +19,23 @@ function Cards({ title, year, poster }) {
         <S.InfoMovie>Nota</S.InfoMovie>
         <S.InfoMovie>Descrição</S.InfoMovie>
       </S.CardBody>
+      <S.CardInfo>
+        <S.LinkTo to={`/detalhes/${imdbID}`}>Ver +</S.LinkTo>
+        {liked ?
+          <FontAwesomeIcon
+            onClick={() => setLiked(!liked)}
+            color='red'
+            size='2x'
+            icon={solidHeart}
+          /> :
+          <FontAwesomeIcon
+            onClick={() => setLiked(!liked)}
+            color='#1c1c1c'
+            size='2x'
+            icon={regularHeart}
+          />
+        }
+      </S.CardInfo>
     </S.Card>
   )
 }

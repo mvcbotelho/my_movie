@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-import { Link } from "react-router-dom";
 
 export const Container = styled.div`
   width: 100%;
@@ -39,7 +38,7 @@ export const SearchWrapper = styled.section`
 export const InputWrapper = styled.div`
 width: 100%;
 margin-top: 15px;
-` 
+`
 
 export const Input = styled.input`
 width:100%;
@@ -64,6 +63,10 @@ background: #FF4500;
 }
 `
 
-export const Links = styled(Link)`
-text-decoration: none;
+
+
+export const LoadingWrapper = styled.div`
+margin: 30px auto;
+grid-column-start: 1;
+grid-column-end: 4;
 `

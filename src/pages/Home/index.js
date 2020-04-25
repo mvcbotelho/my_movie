@@ -2,24 +2,28 @@ import React, { useState } from 'react';
 import * as S from './styled'
 import axios from 'axios'
 
-//import { Link } from "react-router-dom";
+import BounceLoader from "react-spinners/BounceLoader";
 
 import Cards from '../../components/Cards'
 
 function Home() {
   const [movieName, setMovieName] = useState('')
   const [movies, setMovies] = useState('')
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(false)
 
   function handleKeyUp(e) {
     const titleFormated = movieName.split(' ').join('+')
     const keyCode = e.which || e.keyCode;
     if (keyCode === 13) {
-      axios
-        .get(`http://www.omdbapi.com/?s=${titleFormated}&apikey=8568b783&type=movie`)
-        .then(res => setMovies(res.data.Search))
-        .catch(error => console.log(error))
-        .finally(() => setLoading(false));
+      setLoading(true)
+      setTimeout(() => {
+        return axios
+          .get(`http://www.omdbapi.com/?s=${titleFormated}&apikey=8568b783&type=movie`)
+          .then(res => setMovies(res.data.Search))
+          .catch(error => console.log(error))
+          .finally(() => setLoading(false));
+
+      }, 1500)
     }
   }
 
@@ -42,17 +46,30 @@ function Home() {
       </S.Container>
 
       <S.CardContainer>
-        {movies ? (
+        {loading &&
+          (
+            <S.LoadingWrapper>
+              <BounceLoader
+                size={150}
+                color={"#FF8C00"}
+                loading={loading}
+              />
+            </S.LoadingWrapper>
+          )}
+        {movies && (
           <>
-            {console.log(movies)}
             {movies.map(movie => (
-              <S.Links key={movie.imdbID} to={`/detalhes/${movie.imdbID}`}>
-                <Cards title={movie.Title} year={movie.Year} poster={movie.Poster} />
-              </S.Links>
+              <Cards
+                key={movie.imdbID}
+                title={movie.Title}
+                year={movie.Year}
+                poster={movie.Poster}
+                imdbID={movie.imdbID}
+              />
             ))}
           </>
-        ) : null}
-
+        )
+        }
       </S.CardContainer>
     </>
   );
