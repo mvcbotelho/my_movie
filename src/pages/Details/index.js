@@ -5,6 +5,7 @@ import api from '../../services/api';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar, faAward } from '@fortawesome/free-solid-svg-icons';
+import { faTimesCircle } from '@fortawesome/free-regular-svg-icons';
 
 function Details(props) {
   const [movie, setMovie] = useState('');
@@ -14,7 +15,7 @@ function Details(props) {
       .then(res => setMovie(res.data))
       .catch(error => console.log(error))
       .finally();
-  });
+  }, []);
   return (
     <S.Container>
       <S.Header>
@@ -46,6 +47,9 @@ function Details(props) {
           <InfoMovie title="Elenco" description={movie.Actors} />
           <InfoMovie title="Descrição" description={movie.Plot} />
         </S.WrapperInfos>
+        <S.LinkTo to="/">
+          <FontAwesomeIcon icon={faTimesCircle} size="3x" color="1c1c1c" />
+        </S.LinkTo>
       </S.WrapperDetails>
     </S.Container>
   );

@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import * as S from './styled';
+import api from '../../services/api';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart as regularHeart } from '@fortawesome/free-regular-svg-icons';
 import { faHeart as solidHeart } from '@fortawesome/free-solid-svg-icons';
 
-function Cards({ title, year, poster, imdbID, genre, imdbRating, plot }) {
+function Cards({ title, year, poster, imdbID, genre, imdbRating, plot, like }) {
   const [liked, setLiked] = useState(false);
 
   const reduceString = (str, range) => {
@@ -14,6 +15,13 @@ function Cards({ title, year, poster, imdbID, genre, imdbRating, plot }) {
     } else {
       return str;
     }
+  };
+
+  const likedMovie = id => {
+    api
+      .post(`/${id}/like`, null)
+      .then(res => setLiked(true))
+      .catch(error => console.log(error));
   };
 
   return (
@@ -30,7 +38,7 @@ function Cards({ title, year, poster, imdbID, genre, imdbRating, plot }) {
       </S.CardBody>
       <S.CardInfo>
         <S.LinkTo to={`/detalhes/${imdbID}`}>Ver +</S.LinkTo>
-        {liked ? (
+        {liked || like ? (
           <FontAwesomeIcon
             onClick={() => setLiked(!liked)}
             color="red"
@@ -39,7 +47,9 @@ function Cards({ title, year, poster, imdbID, genre, imdbRating, plot }) {
           />
         ) : (
           <FontAwesomeIcon
-            onClick={() => setLiked(!liked)}
+            onClick={() => {
+              likedMovie(imdbID);
+            }}
             color="#1c1c1c"
             size="2x"
             icon={regularHeart}

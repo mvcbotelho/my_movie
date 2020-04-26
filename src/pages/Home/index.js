@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import * as S from './styled';
 import api from '../../services/api';
 
@@ -12,15 +12,26 @@ function Home() {
   const [loading, setLoading] = useState(false);
   const [errorMensage, setErrorMensage] = useState(false);
 
+  useEffect(() => {
+    if (movies) {
+      const obj = localStorage.getItem('@my_movie/movies');
+      const movieList = JSON.parse(obj);
+      setMovies(movieList);
+    }
+  }, []);
+
   function handleKeyUp(e) {
     const keyCode = e.which || e.keyCode;
     if (keyCode === 13) {
       setLoading(true);
+      localStorage.removeItem('@my_movie/movies');
       setErrorMensage(false);
       setMovies([]);
       api
         .get(`/?title=${movieName}`)
         .then(res => {
+          const data = JSON.stringify(res.data);
+          localStorage.setItem('@my_movie/movies', data);
           setMovies(res.data);
         })
         .catch(error => setErrorMensage(error))
@@ -67,6 +78,7 @@ function Home() {
                 genre={movie.Genre}
                 imdbRating={movie.imdbRating}
                 plot={movie.Plot}
+                like={movie.like ? movie.like : null}
               />
             ))}
           </>
