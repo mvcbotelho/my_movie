@@ -1,8 +1,8 @@
-import React from 'react'
+import React from 'react';
 import * as S from './styled'
+import InfoMovie from '../../components/InfoMovie'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-//import { faImbd } from '@fortawesome/free-regular-svg-icons'
 import { faStar, faAward } from '@fortawesome/free-solid-svg-icons'
 
 function Details() {
@@ -14,9 +14,9 @@ function Details() {
       </S.Header>
       <S.WrapperDetails>
         <div>
-        <S.BorderImage>
-          <img src='https://via.placeholder.com/150' />
-        </S.BorderImage>
+          <S.BorderImage>
+            <img src='https://via.placeholder.com/150' />
+          </S.BorderImage>
           <S.WrapperIcons>
             <S.IconsDetails>
               <FontAwesomeIcon icon={faStar} size='3x' color="gold" />
@@ -25,25 +25,22 @@ function Details() {
             </S.IconsDetails>
             <S.IconsDetails>
               <FontAwesomeIcon icon={faAward} size='3x' color="gold" />
-              <S.IconTitle>premiações</S.IconTitle>
+              <S.IconTitle>Premiações</S.IconTitle>
               <p>3 oscar</p>
               <p>3 Globo de ouro</p>
             </S.IconsDetails>
           </S.WrapperIcons>
         </div>
         <S.WrapperInfos>
-          <S.InfoTitle>Ano de lançamento</S.InfoTitle>
-          <S.Information>Ano de lançamento</S.Information>
-          <S.InfoTitle>Gênero</S.InfoTitle>
-          <S.Information>Gênero</S.Information>
-          <S.InfoTitle>Lingua original</S.InfoTitle>
-          <S.Information>Lingua original</S.Information>
-          <S.InfoTitle>Direção</S.InfoTitle>
-          <S.Information>Direção</S.Information>
-          <S.InfoTitle>Elenco</S.InfoTitle>
-          <S.Information>Elenco</S.Information>
-          <S.InfoTitle>Descrição</S.InfoTitle>
-          <S.Information>Descrição</S.Information>
+          <InfoMovie
+            title='Ano de lançamento'
+            description='2009' />
+          <InfoMovie title='Gênero' description='Drama' />
+          <InfoMovie title='Lingua original' description='Português' />
+          <InfoMovie title='Direção' description='Jãozinho' />
+          <InfoMovie title='Elenco' description='Uma galeeeeeeeeera' />
+          <InfoMovie title='Descrição' description='Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups.' />
+
         </S.WrapperInfos>
       </S.WrapperDetails>
     </S.Container>
