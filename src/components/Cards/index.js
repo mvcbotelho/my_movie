@@ -41,5 +41,3 @@ function Cards({ title, year, poster, imdbID }) {
 }
 
 export default Cards
-
-// listagem de filmes apenas a foto, o título, o ano de lançamento, gênero, nota imdb e a descrição dos filmes
