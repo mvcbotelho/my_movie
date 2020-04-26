@@ -1,50 +1,54 @@
-import React from 'react';
-import * as S from './styled'
-import InfoMovie from '../../components/InfoMovie'
+import React, { useState, useEffect } from 'react';
+import * as S from './styled';
+import InfoMovie from '../../components/InfoMovie';
+import api from '../../services/api';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faStar, faAward } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faStar, faAward } from '@fortawesome/free-solid-svg-icons';
 
-function Details() {
-
+function Details(props) {
+  const [movie, setMovie] = useState('');
+  useEffect(() => {
+    api
+      .get(`/${props.match.params.id}`)
+      .then(res => setMovie(res.data))
+      .catch(error => console.log(error))
+      .finally();
+  });
   return (
     <S.Container>
       <S.Header>
-        <h1>Titulo</h1>
+        <h1>{movie.Title}</h1>
       </S.Header>
       <S.WrapperDetails>
         <div>
           <S.BorderImage>
-            <img src='https://via.placeholder.com/150' />
+            <img src={movie.Poster} />
           </S.BorderImage>
           <S.WrapperIcons>
             <S.IconsDetails>
-              <FontAwesomeIcon icon={faStar} size='3x' color="gold" />
+              <FontAwesomeIcon icon={faStar} size="3x" color="gold" />
               <S.IconTitle>Nota imdb</S.IconTitle>
-              <p>8,2/10</p>
+              <p>{movie.imdbRating}</p>
             </S.IconsDetails>
             <S.IconsDetails>
-              <FontAwesomeIcon icon={faAward} size='3x' color="gold" />
+              <FontAwesomeIcon icon={faAward} size="3x" color="gold" />
               <S.IconTitle>Premiações</S.IconTitle>
-              <p>3 oscar</p>
-              <p>3 Globo de ouro</p>
+              <p>{movie.Awards}</p>
             </S.IconsDetails>
           </S.WrapperIcons>
         </div>
         <S.WrapperInfos>
-          <InfoMovie
-            title='Ano de lançamento'
-            description='2009' />
-          <InfoMovie title='Gênero' description='Drama' />
-          <InfoMovie title='Lingua original' description='Português' />
-          <InfoMovie title='Direção' description='Jãozinho' />
-          <InfoMovie title='Elenco' description='Uma galeeeeeeeeera' />
-          <InfoMovie title='Descrição' description='Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups.' />
-
+          <InfoMovie title="Ano de lançamento" description={movie.Year} />
+          <InfoMovie title="Gênero" description={movie.Genre} />
+          <InfoMovie title="Lingua original" description={movie.Language} />
+          <InfoMovie title="Direção" description={movie.Director} />
+          <InfoMovie title="Elenco" description={movie.Actors} />
+          <InfoMovie title="Descrição" description={movie.Plot} />
         </S.WrapperInfos>
       </S.WrapperDetails>
     </S.Container>
-  )
+  );
 }
 
-export default Details
+export default Details;
